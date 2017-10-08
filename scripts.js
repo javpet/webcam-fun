@@ -12,6 +12,7 @@ function getVideo() {
 		}) // this will return a promise
 		.then(localMediaStream => {
 			console.log(localMediaStream);
+			// this converts the media stream into a URL that the video player can understand
 			video.src = window.URL.createObjectURL(localMediaStream);
 			// without video.play() we can only see 1 frame on the screen
 			video.play();
@@ -28,7 +29,7 @@ function paintToCanvas() {
 	canvas.width = width;
 
 	return setInterval(() => {
-		ctx.drawImage(video, 0, 0, width, height);
+		ctx.drawImage(video, 0, 0, width, height); //drawimage is painting the element passed in, to the canvas
 
 		// Take the pixels out
 		let pixels = ctx.getImageData(0, 0, width, height);
@@ -53,7 +54,7 @@ function takePhoto() {
 	strip.insertBefore(link, strip.firstChild);
 }
 
-function redEffect() {
+function redEffect(pixels) {
 	for (let i = 0; i < pixels.data.length; i += 4) {
 		pixels.data[i + 0] = pixels.data[i + 0] + 100; //This is going to be the red channel
 		pixels.data[i + 1] = pixels.data[i + 1] - 50; // green channel
@@ -65,4 +66,4 @@ function redEffect() {
 
 getVideo();
 
-video.addEventListener("canplay", paintToCanvas);
+video.addEventListener("canplay", paintToCanvas); //once the video is playing is calling paintToCanvas
